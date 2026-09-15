@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sunny Xu — Robotics Software</title>
+<meta name="description" content="Sunny (Zehui) Xu — robotics software engineer working on swarm control, perception and safety-critical systems. B.S.E. Computer Science and Robotics, University of Michigan, December 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#eff1f5;
+    --paper-deep:#e5e9f0;
+    --ink:#101c2e;
+    --slate:#4a5770;
+    --rule:#c9d0dc;
+    --maize:#e0a82e;
+    --blue:#2f5e9e;
+    --shell:min(1120px, 92vw);
+  }
+
+  *{box-sizing:border-box;}
+
+  html{-webkit-text-size-adjust:100%;}
+
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Source Serif 4", Georgia, serif;
+    font-size:17px;
+    line-height:1.62;
+    font-optical-sizing:auto;
+  }
+
+  h1,h2,h3,.grot{
+    font-family:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;
+    font-weight:700;
+    letter-spacing:-0.02em;
+    line-height:1.05;
+    margin:0;
+  }
+
+  a{color:inherit;}
+
+  a:focus-visible,button:focus-visible{
+    outline:2px solid var(--blue);
+    outline-offset:3px;
+    border-radius:2px;
+  }
+
+  .shell{width:var(--shell);margin-inline:auto;}
+
+  /* ---------- masthead ---------- */
+  .masthead{
+    position:sticky;top:0;z-index:20;
+    background:color-mix(in srgb, var(--paper) 88%, transparent);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--rule);
+  }
+  .masthead .shell{
+    display:flex;align-items:baseline;gap:1.5rem;
+    padding:.85rem 0;
+  }
+  .wordmark{font-size:1.05rem;font-family:"Bricolage Grotesque",sans-serif;font-weight:700;letter-spacing:-0.02em;text-decoration:none;}
+  .masthead nav{margin-left:auto;display:flex;gap:1.4rem;font-size:.93rem;}
+  .masthead nav a{color:var(--slate);text-decoration:none;}
+  .masthead nav a:hover{color:var(--ink);text-decoration:underline;text-underline-offset:4px;text-decoration-color:var(--maize);text-decoration-thickness:2px;}
+
+  /* ---------- hero ---------- */
+  .hero{padding:clamp(2.5rem,7vw,5.5rem) 0 clamp(2.5rem,5vw,4rem);}
+  .hero .shell{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,.82fr);
+    gap:clamp(2rem,5vw,4rem);
+    align-items:center;
+  }
+  h1{font-size:clamp(2.9rem,7.4vw,5.1rem);}
+  .lede{
+    font-size:clamp(1.12rem,1.9vw,1.32rem);
+    max-width:34ch;
+    margin:1.5rem 0 0;
+    color:var(--ink);
+  }
+  .status{
+    margin-top:2rem;padding-top:1.25rem;
+    border-top:1px solid var(--rule);
+    display:grid;gap:.4rem;
+    font-size:.98rem;color:var(--slate);
+    max-width:44ch;
+  }
+  .status b{font-weight:600;color:var(--ink);}
+  .open{display:inline-flex;align-items:center;gap:.5rem;}
+  .open::before{
+    content:"";width:8px;height:8px;border-radius:50%;
+    background:var(--maize);box-shadow:0 0 0 3px rgba(224,168,46,.25);
+    flex:none;
+  }
+  .links{display:flex;flex-wrap:wrap;gap:1.1rem;margin-top:1.6rem;font-size:1rem;}
+  .links a{
+    text-decoration:none;
+    border-bottom:2px solid var(--maize);
+    padding-bottom:1px;
+  }
+  .links a:hover{background:rgba(224,168,46,.18);}
+
+  /* ---------- swarm canvas ---------- */
+  .swarm{position:relative;}
+  .swarm canvas{
+    display:block;width:100%;aspect-ratio:1/1;
+    background:
+      linear-gradient(var(--paper-deep) 1px, transparent 1px) 0 0/100% 34px,
+      linear-gradient(90deg, var(--paper-deep) 1px, transparent 1px) 0 0/34px 100%,
+      var(--paper);
+    border:1px solid var(--rule);
+  }
+  .swarm figcaption{
+    margin:.7rem 0 0;font-size:.85rem;color:var(--slate);line-height:1.45;
+  }
+  .swarm .toggle{
+    position:absolute;right:.55rem;bottom:.55rem;
+    font:inherit;font-size:.78rem;
+    background:var(--paper);color:var(--slate);
+    border:1px solid var(--rule);padding:.25rem .6rem;cursor:pointer;
+  }
+  .swarm .toggle:hover{color:var(--ink);border-color:var(--slate);}
+
+  /* ---------- sections ---------- */
+  section{padding:clamp(2.8rem,6vw,4.5rem) 0;border-top:1px solid var(--rule);}
+  .sec-head{
+    display:grid;grid-template-columns:minmax(0,.3fr) minmax(0,1fr);
+    gap:clamp(1.5rem,4vw,3rem);align-items:baseline;margin-bottom:2.4rem;
+  }
+  h2{font-size:clamp(1.5rem,2.6vw,2rem);}
+  .sec-head p{margin:0;color:var(--slate);font-size:1rem;max-width:52ch;}
+
+  /* feature: the paper */
+  .paper-feature{
+    display:grid;grid-template-columns:minmax(0,.3fr) minmax(0,1fr);
+    gap:clamp(1.5rem,4vw,3rem);
+  }
+  .venue{font-size:.95rem;color:var(--slate);line-height:1.5;}
+  .venue strong{display:block;font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:1.15rem;color:var(--ink);letter-spacing:-0.01em;margin-bottom:.3rem;}
+  .paper-title{
+    font-size:clamp(1.35rem,2.6vw,1.85rem);
+    font-family:"Bricolage Grotesque",sans-serif;font-weight:700;
+    letter-spacing:-0.02em;line-height:1.15;margin:0 0 1rem;max-width:22ch;
+  }
+  .paper-feature p{margin:0 0 1rem;max-width:62ch;}
+  .accolade{
+    margin-top:1.5rem;padding-left:1.1rem;
+    border-left:3px solid var(--maize);
+    font-size:1rem;color:var(--slate);max-width:52ch;
+  }
+  .accolade b{color:var(--ink);font-weight:600;}
+
+  /* experience rows */
+  .row{
+    display:grid;grid-template-columns:minmax(0,.3fr) minmax(0,1fr);
+    gap:clamp(1.5rem,4vw,3rem);
+    padding:2rem 0;border-top:1px solid var(--rule);
+  }
+  .row:first-of-type{border-top:none;padding-top:0;}
+  .org{font-size:1.12rem;font-family:"Bricolage Grotesque",sans-serif;font-weight:700;letter-spacing:-0.01em;line-height:1.25;}
+  .when{font-size:.9rem;color:var(--slate);margin-top:.4rem;line-height:1.5;}
+  .role{font-size:1.18rem;font-family:"Bricolage Grotesque",sans-serif;font-weight:500;letter-spacing:-0.01em;margin-bottom:.7rem;}
+  .row ul{margin:0;padding-left:1.15rem;max-width:66ch;}
+  .row li{margin-bottom:.55rem;}
+  .row li::marker{color:var(--maize);}
+  .stack{
+    margin-top:1rem;font-size:.88rem;color:var(--slate);
+    max-width:62ch;
+  }
+  .stack span{white-space:nowrap;}
+  .stack span + span::before{content:" / ";color:var(--rule);}
+
+  /* media */
+  .media{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:1.5rem;
+    margin-top:2.2rem;
+  }
+  .media figure{margin:0;}
+  .media .wide{grid-column:1 / -1;}
+  .media img,.media video{
+    display:block;width:100%;height:auto;
+    border:1px solid var(--rule);
+    background:var(--paper-deep);
+    aspect-ratio:16/9;object-fit:cover;
+  }
+  .media .portrait img,.media .portrait video{aspect-ratio:3/4;}
+  .media figcaption{
+    margin-top:.6rem;font-size:.85rem;color:var(--slate);line-height:1.45;
+  }
+
+  .inline-media{margin:1.4rem 0 0;max-width:66ch;}
+  .inline-media img,.inline-media video{
+    display:block;width:100%;height:auto;
+    border:1px solid var(--rule);background:var(--paper-deep);
+  }
+  .inline-media figcaption{margin-top:.6rem;font-size:.85rem;color:var(--slate);}
+
+  /* shown in place of a file that hasn't been added yet */
+  .missing{
+    display:flex;align-items:center;justify-content:center;
+    text-align:center;padding:1.5rem;
+    border:1px dashed var(--rule);
+    aspect-ratio:16/9;
+    font-size:.85rem;color:var(--slate);line-height:1.5;
+  }
+  .missing code{font-size:.95em;color:var(--ink);}
+
+  /* toolkit */
+  .kit{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:2rem 3rem;}
+  .kit h3{font-size:1rem;font-weight:500;font-family:"Bricolage Grotesque",sans-serif;margin-bottom:.5rem;}
+  .kit p{margin:0;color:var(--slate);font-size:.98rem;}
+
+  /* footer */
+  footer{border-top:1px solid var(--rule);padding:clamp(2.8rem,6vw,4.5rem) 0 3.5rem;}
+  .sign{font-size:clamp(1.6rem,4vw,2.6rem);font-family:"Bricolage Grotesque",sans-serif;font-weight:700;letter-spacing:-0.02em;margin-bottom:1.2rem;}
+  .colophon{margin-top:3rem;font-size:.85rem;color:var(--slate);}
+
+  @media (max-width:860px){
+    .hero .shell,.sec-head,.paper-feature,.row{grid-template-columns:minmax(0,1fr);}
+    .hero .shell{gap:2.2rem;}
+    .swarm{order:-1;}
+    .swarm canvas{aspect-ratio:4/3;}
+    .sec-head{gap:.8rem;margin-bottom:1.8rem;}
+    .row{gap:1rem;}
+    .masthead nav{display:none;}
+    .paper-feature{gap:1.2rem;}
+    .media{grid-template-columns:minmax(0,1fr);gap:1.2rem;}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important;}
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="shell">
+    <a class="wordmark" href="#top">Sunny Xu</a>
+    <nav>
+      <a href="#research">Research</a>
+      <a href="#work">Work</a>
+      <a href="#building">Building</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <div class="hero">
+    <div class="shell">
+      <div>
+        <h1>Sunny Xu</h1>
+        <p class="lede">I write the software that keeps robots aware of where they are and safe around everything else — from a single endoscope inside a patient to a hundred agents in a swarm.</p>
+        <div class="status">
+          <span><b>B.S.E. Computer Science and Robotics</b>, University of Michigan</span>
+          <span>Graduating December 2026 — GPA 3.93</span>
+          <span class="open">Looking for robotics software roles starting 2027</span>
+        </div>
+        <div class="links">
+          <a href="mailto:sunnyx@umich.edu">sunnyx@umich.edu</a>
+          <a href="https://linkedin.com/in/sunnyxu0412">LinkedIn</a>
+          <a href="tel:+17348828043">734-882-8043</a>
+        </div>
+      </div>
+
+      <figure class="swarm" style="margin:0">
+        <canvas id="swarm" aria-label="Live simulation of seventy swarmalators in three dimensions, each colored by its phase, settling into a rotating phase wave."></canvas>
+        <button class="toggle" id="swarmToggle" type="button">Pause</button>
+        <figcaption>Seventy swarmalators, integrated live in your browser. Each agent's position and phase pull on every other one; color is phase. It's the model from the paper below, running at a much smaller scale than the drones did.</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <section id="research">
+    <div class="shell">
+      <div class="sec-head">
+        <h2>Research</h2>
+        <p>Swarm control at the Synergetic Adaptive Machines Lab, University of Michigan, since June 2025.</p>
+      </div>
+
+      <div class="paper-feature">
+        <div class="venue">
+          <strong>ICRA 2026</strong>
+          Accepted paper<br>Co-first author
+        </div>
+        <div>
+          <p class="paper-title">The first real-world implementation of the 3D swarmalator model.</p>
+          <p>Swarmalators couple two things robots usually handle separately: where an agent is, and what internal state it's in. Everything that had been shown before lived in simulation. We put it on hardware, and added Control Barrier Functions so the guarantees hold when the space is full of obstacles — safe, scalable, fully distributed control with no central planner.</p>
+          <p>Getting there meant real-time control software written against the Crazyflie API, and a ROS network carrying VICON motion capture data back into the loop, closed across nine drones flying at once.</p>
+          <p>Alongside the flights, I built an NVIDIA Isaac Sim framework for the stochastic collision dynamics of smarticles, which let us observe formations at scales past 100 robots that we couldn't fly.</p>
+          <div class="accolade">
+            <b>Honorable Mention</b>, CRA Outstanding Undergraduate Researcher Award — the national award for undergraduate computing research.
+          </div>
+
+          <div class="media" id="researchMedia">
+            <figure class="wide">
+              <video src="media/hardware-flight.mp4" poster="media/hardware-flight.jpg"
+                     controls muted loop playsinline preload="metadata"></video>
+              <figcaption>Nine Crazyflies holding a swarmalator formation under Control Barrier Functions, flown in the VICON arena. This is the part that hadn't been done before.</figcaption>
+            </figure>
+            <figure>
+              <video src="media/swarm-sim.mp4" poster="media/swarm-sim.jpg"
+                     controls muted loop playsinline preload="metadata"></video>
+              <figcaption>The same controller in simulation, where the model had lived until now.</figcaption>
+            </figure>
+            <figure>
+              <video src="media/isaac-sim.mp4" poster="media/isaac-sim.jpg"
+                     controls muted loop playsinline preload="metadata"></video>
+              <figcaption>Isaac Sim, past a hundred smarticles colliding — the scale we couldn't fly.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="work">
+    <div class="shell">
+      <div class="sec-head">
+        <h2>Work</h2>
+        <p>Medical robotics and electric fleet software.</p>
+      </div>
+
+      <div class="row">
+        <div>
+          <div class="org">Neptune Medical</div>
+          <div class="when">Burlingame, CA<br>May – August 2026</div>
+        </div>
+        <div>
+          <div class="role">Robotics Software Intern</div>
+          <ul>
+            <li>Rebuilt the internal fault audit system around what clinicians actually needed to see, so failures surface in a readable form. Documenting a faulty run went from an hour to ten minutes.</li>
+            <li>Built a debugging tool for an FDA-regulated endoscopy robot that reads through logs and tells R&amp;D where performance is degrading — including the failures sitting in logs nobody had opened.</li>
+            <li>Designed the data pipelines and architecture to catch short- and long-term device faults at production scale, so robots across multiple sites can be watched from one place.</li>
+            <li>Presented the tool company-wide. R&amp;D and leadership backed it for field deployment.</li>
+          </ul>
+          <p class="stack"><span>Python</span><span>log analysis</span><span>data pipelines</span><span>FDA-regulated systems</span></p>
+          <figure class="inline-media">
+            <img src="media/neptune.jpg" alt="Sunny Xu at Neptune Medical in Burlingame, California." loading="lazy">
+            <figcaption>Summer 2026 at Neptune Medical.</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <div class="org">Isuzu North America</div>
+          <div class="when">Industry-sponsored capstone<br>January 2026 – present</div>
+        </div>
+        <div>
+          <div class="role">BEV Fleet Optimization Engineer</div>
+          <ul>
+            <li>Trained a PyTorch model that predicts energy draw from real vehicle telemetry and environmental conditions.</li>
+            <li>Built an energy-aware fleet router that feeds those predictions into the Google Maps API to plan routes for electric trucks around what they'll actually spend getting there.</li>
+            <li>Benchmarked the energy-optimized policies against baseline heuristics in simulation, on both efficiency and route quality.</li>
+          </ul>
+          <p class="stack"><span>PyTorch</span><span>Python</span><span>Google Maps API</span><span>route optimization</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="building">
+    <div class="shell">
+      <div class="sec-head">
+        <h2>Building</h2>
+        <p>Humanoid soccer and autonomous navigation.</p>
+      </div>
+
+      <div class="row">
+        <div>
+          <div class="org">Wolverine Botkickers</div>
+          <div class="when">RoboCup humanoid team<br>January 2026 – present</div>
+        </div>
+        <div>
+          <div class="role">Robotics Software Subteam Lead</div>
+          <ul>
+            <li>Wrote and validated an iterative landmark-matching model in Gazebo that holds humanoid pose estimation together under noisy soccer-field observations.</li>
+            <li>Led a redesign of the path planner from BFS to A* behind a custom ROS2 interface, with simulation validation and automated Bash tests — 50% faster than what it replaced.</li>
+            <li>Built a ROS2 point cloud publisher that simulates continuous lane-line data for the computer vision stack to consume.</li>
+          </ul>
+          <p class="stack"><span>ROS2</span><span>Gazebo</span><span>C++</span><span>pose estimation</span><span>path planning</span></p>
+          <figure class="inline-media">
+            <img src="media/botkickers-gazebo.jpg" alt="Gazebo simulation of the humanoid on the soccer field with landmark matches drawn." loading="lazy">
+            <figcaption>Landmark matches drawn over a noisy field view in Gazebo.</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <div class="org">MBot SLAM &amp; Navigation</div>
+          <div class="when">Ann Arbor, MI<br>September – December 2024</div>
+        </div>
+        <div>
+          <div class="role">Autonomy Developer</div>
+          <ul>
+            <li>Integrated SLAM over LCM on a Raspberry Pi for real-time mapping and path planning.</li>
+            <li>Built a particle filter and range sensing into an occupancy grid, so the robot could localize and explore on its own using PID control and odometry.</li>
+            <li>Tuned and compared reprojection error across two camera models in MATLAB and LCM.</li>
+          </ul>
+          <p class="stack"><span>C++</span><span>LCM</span><span>Raspberry Pi</span><span>particle filter</span><span>MATLAB</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="toolkit">
+    <div class="shell">
+      <div class="sec-head">
+        <h2>Toolkit</h2>
+        <p>What I reach for.</p>
+      </div>
+      <div class="kit">
+        <div>
+          <h3>Languages</h3>
+          <p>C++, C, Python, Java, JavaScript, MATLAB</p>
+        </div>
+        <div>
+          <h3>Robotics</h3>
+          <p>ROS2, NVIDIA Isaac Sim, Gazebo, OpenCV, LCM, Crazyflie, VICON motion capture</p>
+        </div>
+        <div>
+          <h3>Learning and data</h3>
+          <p>PyTorch, SQL, Docker</p>
+        </div>
+        <div>
+          <h3>Hardware and design</h3>
+          <p>Onshape, SOLIDWORKS, EasyEDA</p>
+        </div>
+        <div>
+          <h3>Coursework</h3>
+          <p>Data Structures and Algorithms, SLAM and Navigation, Operating Systems, Sensors and Signals</p>
+        </div>
+        <div>
+          <h3>Also</h3>
+          <p>Teaching assistant for Deep Learning for Robot Perception. Tau Beta Pi.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer id="contact">
+  <div class="shell">
+    <p class="sign">Tell me what you're building.</p>
+    <div class="links">
+      <a href="mailto:sunnyx@umich.edu">sunnyx@umich.edu</a>
+      <a href="https://linkedin.com/in/sunnyxu0412">LinkedIn</a>
+      <a href="tel:+17348828043">734-882-8043</a>
+    </div>
+    <p class="colophon">Ann Arbor, Michigan. The swarm above is simulated live, not a recording.</p>
+  </div>
+</footer>
+
+<script>
+// Any image or video whose file isn't there yet is replaced with a labeled
+// placeholder, so the page stays presentable while you're still gathering media.
+(function () {
+  function placeholder(el) {
+    var src = el.getAttribute('src') || '(no src)';
+    var box = document.createElement('div');
+    box.className = 'missing';
+    box.innerHTML = 'Drop a file at <code>' + src + '</code>';
+    el.replaceWith(box);
+  }
+  var media = document.querySelectorAll('.media img, .media video, .inline-media img, .inline-media video');
+  for (var i = 0; i < media.length; i++) {
+    media[i].addEventListener('error', function () { placeholder(this); }, true);
+    if (media[i].tagName === 'IMG' && media[i].complete && media[i].naturalWidth === 0) {
+      placeholder(media[i]);
+    }
+  }
+})();
+
+// Only one video plays at a time.
+(function () {
+  var vids = document.querySelectorAll('video');
+  for (var i = 0; i < vids.length; i++) {
+    vids[i].addEventListener('play', function () {
+      for (var j = 0; j < vids.length; j++) {
+        if (vids[j] !== this) vids[j].pause();
+      }
+    });
+  }
+})();
+
+(function () {
+  var canvas = document.getElementById('swarm');
+  var toggle = document.getElementById('swarmToggle');
+  if (!canvas || !canvas.getContext) return;
+  var ctx = canvas.getContext('2d');
+
+  var N = 70, A = 1, B = 1, J = 1.0, K = -0.08, dt = 0.018;
+  var agents = [], running = true, raf = null, visible = true;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  function rand(a, b) { return a + Math.random() * (b - a); }
+
+  function seed() {
+    agents = [];
+    for (var i = 0; i < N; i++) {
+      agents.push({
+        x: rand(-1, 1), y: rand(-1, 1), z: rand(-1, 1),
+        th: rand(0, Math.PI * 2)
+      });
+    }
+  }
+
+  function step() {
+    var vx = new Float64Array(N), vy = new Float64Array(N),
+        vz = new Float64Array(N), vt = new Float64Array(N);
+
+    for (var i = 0; i < N; i++) {
+      var ai = agents[i];
+      for (var j = i + 1; j < N; j++) {
+        var aj = agents[j];
+        var dx = aj.x - ai.x, dy = aj.y - ai.y, dz = aj.z - ai.z;
+        var d2 = dx * dx + dy * dy + dz * dz + 1e-4;
+        var d = Math.sqrt(d2);
+        var dth = aj.th - ai.th;
+        var attract = (A + J * Math.cos(dth)) / d;
+        var repel = B / d2;
+        var f = (attract - repel) / N;
+        vx[i] += f * dx; vy[i] += f * dy; vz[i] += f * dz;
+        vx[j] -= f * dx; vy[j] -= f * dy; vz[j] -= f * dz;
+        var ph = (K / N) * Math.sin(dth) / d;
+        vt[i] += ph; vt[j] -= ph;
+      }
+    }
+    for (var k = 0; k < N; k++) {
+      var a = agents[k];
+      a.x += vx[k] * dt; a.y += vy[k] * dt; a.z += vz[k] * dt;
+      a.th += vt[k] * dt;
+    }
+  }
+
+  var spin = 0;
+
+  function mix(t) {
+    // navy -> maize, cosine-weighted by phase
+    var c0 = [47, 94, 158], c1 = [224, 168, 46];
+    return 'rgb(' +
+      Math.round(c0[0] + (c1[0] - c0[0]) * t) + ',' +
+      Math.round(c0[1] + (c1[1] - c0[1]) * t) + ',' +
+      Math.round(c0[2] + (c1[2] - c0[2]) * t) + ')';
+  }
+
+  function draw() {
+    var w = canvas.clientWidth, h = canvas.clientHeight;
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    if (canvas.width !== Math.round(w * dpr) || canvas.height !== Math.round(h * dpr)) {
+      canvas.width = Math.round(w * dpr);
+      canvas.height = Math.round(h * dpr);
+    }
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, w, h);
+
+    var cx = w / 2, cy = h / 2;
+    var scale = Math.min(w, h) * 0.31;
+    var cos = Math.cos(spin), sin = Math.sin(spin);
+    var tilt = 0.38, ct = Math.cos(tilt), st = Math.sin(tilt);
+
+    var pts = [];
+    for (var i = 0; i < N; i++) {
+      var a = agents[i];
+      var x1 = a.x * cos + a.z * sin;
+      var z1 = -a.x * sin + a.z * cos;
+      var y1 = a.y * ct - z1 * st;
+      var z2 = a.y * st + z1 * ct;
+      pts.push({ x: cx + x1 * scale, y: cy + y1 * scale, z: z2, th: a.th });
+    }
+    pts.sort(function (p, q) { return p.z - q.z; });
+
+    for (var n = 0; n < pts.length; n++) {
+      var p = pts[n];
+      var depth = (p.z + 1.6) / 3.2;
+      depth = Math.max(0.15, Math.min(1, depth));
+      var r = 2.2 + depth * 3.4;
+      var t = (Math.cos(p.th) + 1) / 2;
+      ctx.globalAlpha = 0.35 + depth * 0.6;
+      ctx.fillStyle = mix(t);
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function frame() {
+    if (running && visible) { step(); spin += 0.0022; }
+    draw();
+    raf = window.requestAnimationFrame(frame);
+  }
+
+  function setRunning(on) {
+    running = on;
+    toggle.textContent = on ? 'Pause' : 'Play';
+    toggle.setAttribute('aria-pressed', on ? 'false' : 'true');
+  }
+
+  seed();
+
+  if (reduce.matches) {
+    // settle to a representative state, then hold it still
+    for (var s = 0; s < 900; s++) step();
+    draw();
+    setRunning(false);
+    toggle.addEventListener('click', function () {
+      setRunning(!running);
+      if (running && !raf) frame();
+    });
+    window.addEventListener('resize', draw);
+    return;
+  }
+
+  toggle.addEventListener('click', function () { setRunning(!running); });
+
+  var inView = true;
+  function sync() { visible = inView && !document.hidden; }
+
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      inView = entries[0].isIntersecting;
+      sync();
+    }, { threshold: 0.05 }).observe(canvas);
+  }
+
+  document.addEventListener('visibilitychange', sync);
+
+  frame();
+})();
+</script>
+</body>
+</html>
