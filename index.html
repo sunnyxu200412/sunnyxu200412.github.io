@@ -257,8 +257,9 @@
     <a class="wordmark" href="#top">Sunny Xu</a>
     <nav>
       <a href="#research">Research</a>
+      <a href="#teaching">Teaching</a>
       <a href="#work">Work Experience</a>
-      <a href="#building">Building</a>
+      <a href="#projects">Relevant Projects</a>
       <a href="#contact">Contact</a>
     </nav>
   </div>
@@ -270,8 +271,8 @@
     <div class="shell hero-grid">
       <div>
         <h1>Sunny (Zehui) Xu</h1>
-        <p class="lede">I'm a senior in Robotics and Computer Science at the University of Michigan, interested in robotics autonomy and in building systems that let robots move safely through the world around them.</p>
-        <p class="intro">I enjoy research and development across the full robotics stack, from deploying software to testing it in simulation and on hardware. I take pride in owning projects: taking an abstract idea, turning it into something tangible, and iterating on it by talking with the people who will actually use it.</p>
+        <p class="lede">I’m a senior studying Robotics and Computer Science at the University of Michigan, interested in how robots can coordinate, adapt, and operate safely in the real world. My research interests include distributed multi-agent control and combining learning-based methods with model-based control for safe autonomy.</p>
+        <p class="intro">I enjoy turning research ideas into working systems, from developing control algorithms and simulation environments to validating them on hardware. I value owning projects from concept through experimentation, using results and feedback to refine both the underlying ideas and their implementation.</p>
         <div class="status">
           <span><b>B.S.E. Computer Science and Robotics</b>, University of Michigan</span>
           <span>Graduating December 2026 — GPA 3.93</span>
@@ -280,7 +281,7 @@
           <a href="mailto:sunnyx@umich.edu">sunnyx@umich.edu</a>
           <a href="https://github.com/sunnyxu200412" target="_blank" rel="noopener">GitHub</a>
           <a href="https://linkedin.com/in/sunnyxu0412" target="_blank" rel="noopener">LinkedIn</a>
-          <a href="resume.pdf">Résumé</a>
+          <a href="media/sunny-xu-cv.pdf" target="_blank" rel="noopener">Résumé</a>
         </div>
       </div>
       <img class="headshot" src="media/profile.png" width="517" height="541" alt="Portrait of Sunny Xu.">
@@ -292,7 +293,7 @@
       <div class="sec-head">
         <h2>Research</h2>
         <div>
-          <p>Synergetic Adaptive Machines Lab, University of Michigan · June 2025 – present</p>
+          <p>Synergetic Adaptive Machines Lab, University of Michigan · May 2025 – present</p>
           <div class="accolade">
             <b>Honorable Mention</b>, CRA Outstanding Undergraduate Researcher Award
             <figure class="inline-media certificate">
@@ -318,9 +319,10 @@
             <a href="https://ras.papercept.net/conferences/conferences/ICRA26/program/ICRA26_ContentListWeb_4.html#wei1i_185" class="paper-link" target="_blank" rel="noopener">ICRA 2026 program listing</a>
           </p>
           <ul>
-            <li>Co-first authored and presented an accepted ICRA 2026 paper, earning Honorable Mention in the CRA Outstanding Undergraduate Researcher Award</li>
-            <li>Delivered the real-world implementation of the 3D swarmalator model with Control Barrier Functions (CBF), demonstrating robust, safe and scalable distributed control for autonomous drones in obstacle-rich environments</li>
-            <li>Developed real-time control software by interfacing with the Crazyflie API and established ROS network communication with a VICON motion capture system for closed-loop feedback across 9 drones</li>
+            <li>Co-first-authored and presented a paper on distributed control of 3D robotic swarmalators at ICRA 2026</li>
+            <li>Implemented a 3D swarmalator controller with control barrier functions (CBFs) for distributed drone coordination and collision avoidance in obstacle-rich environments</li>
+            <li>Integrated Rodrigues' rotation formula into the swarmalator controller to orient the drone collective, allowing drones to pass through obstacles more easily</li>
+            <li>Developed real-time control software integrating the Crazyflie API, ROS communication, and VICON motion capture feedback for closed-loop control of 8 drones</li>
           </ul>
         </div>
 
@@ -346,9 +348,12 @@
         <div>
           <p class="paper-title">Smarticle Collision Simulation</p>
           <ul>
-            <li>Built an NVIDIA Isaac Sim framework to simulate and observe the stochastic formation of smarticle collisions, enabling scaled-up physical experiment observations with 100+ robots</li>
+            <li>Built an NVIDIA Isaac Sim environment using SOLIDWORKS-derived URDF models to study stochastic collisions and collective behavior of 100+ smarticle robots</li>
+            <li>Automated multiple headless simulation instances using Bash scripts, enabling unattended overnight experiments</li>
+            <li>Developed a randomized initialization script that accounted for smarticle geometry and range of motion to place robots within a bounded region without initial overlap</li>
+            <li>Documented simulation setup and workflows to enable reuse and adaptation for future lab projects</li>
           </ul>
-          <p class="stack"><span>NVIDIA Isaac Sim</span></p>
+          <p class="stack"><span>NVIDIA Isaac Sim</span><span>SOLIDWORKS</span><span>URDF</span><span>Bash</span></p>
         </div>
 
         <div class="media paper-media smarticle-media">
@@ -373,15 +378,70 @@
           <p class="paper-title">Particle Life Simulation</p>
           <p class="paper-meta">Programming collective behavior with two interaction matrices</p>
           <ul>
-            <li>Optimizing simulation runtime to scale to 100k+ particles, the population size needed for organic collective behaviors to emerge</li>
-            <li>Improving the runtime of the algorithm that uses interaction matrices to control different particle species from O(n²) to O(n), allowing much larger particle counts</li>
+            <li>Scaled a particle-life simulation from an initial capacity of 3,000 to 500,000+ particles, simulating 45 seconds of particle dynamics in under 10 minutes</li>
+            <li>Implemented GPU-parallel physics computations and spatial partitioning to accelerate particle interaction calculations and controller updates</li>
+            <li>Redesigned particle interaction calculations to target O(n) scaling by restricting computations to spatially local neighbors</li>
           </ul>
-          <p class="stack"><span>Tools go here</span></p>
+          <p class="stack"><span>GPU computing</span><span>spatial partitioning</span></p>
           <figure class="inline-media square-media">
             <video src="media/particle-life.mp4" poster="media/particle-life.jpg" width="900" height="798"
                    autoplay muted loop playsinline preload="auto"></video>
             <figcaption>Tuning the interaction matrix to change how particle species cluster.</figcaption>
           </figure>
+        </div>
+      </div>
+
+      <!-- Project 4: EEG-controlled microrobot collective (capstone) -->
+      <div class="paper-feature">
+        <div class="venue">
+          <strong>Capstone</strong>
+          <span class="status-tag">In progress</span>
+        </div>
+        <div>
+          <p class="paper-title">EEG-Controlled Microrobot Collective</p>
+          <ul>
+            <li>Evaluated and selected EEG hardware for a brain-computer interface to control magnetic microrobot collectives</li>
+            <li>Integrated a controller with the microrobot physics simulation to translate directional commands into collective movement, supporting future integration with EEG input and the physical magnetic-array platform</li>
+            <li>Developing a signal-processing and classification pipeline combining Butterworth bandpass filtering with a two-stage machine learning model to map raw EEG signals to directional commands</li>
+          </ul>
+          <p class="stack"><span>EEG</span><span>signal processing</span><span>machine learning</span><span>simulation</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="teaching">
+    <div class="shell">
+      <div class="sec-head">
+        <h2>Teaching</h2>
+      </div>
+
+      <div class="row">
+        <div>
+          <div class="org">Deep Learning for Robot Perception</div>
+          <div class="when">College of Engineering<br>January – August 2025</div>
+        </div>
+        <div>
+          <div class="role">Teaching Assistant</div>
+          <ul>
+            <li>Held office hours to explain deep learning concepts and support PyTorch projects in image classification, object detection, and pose estimation</li>
+            <li>Led a discussion session on simulation and reinforcement learning for robotics</li>
+            <li>Graded examinations in collaboration with course instructors</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <div class="org">General Physics II</div>
+          <div class="when">College of Literature, Science, and the Arts<br>January – December 2025</div>
+        </div>
+        <div>
+          <div class="role">Teaching Assistant</div>
+          <ul>
+            <li>Guided students through electromagnetism concepts and problem-solving, including electric and magnetic fields, circuit analysis, and electromagnetic waves</li>
+            <li>Adapted explanations to different problem-solving approaches, helping students identify conceptual gaps and refine their reasoning</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -401,10 +461,10 @@
         <div>
           <div class="role">Robotics Software Intern</div>
           <ul>
-            <li>Improved an internal fault audit system using clinical feedback to catch faults and display them in a readable format, reducing clinical documentation time for faulty software runs from 1 hour to 10 minutes</li>
-            <li>Designed a debugging tool for an FDA-regulated endoscopy robot that processes logs and informs R&amp;D researchers of performance degradation and failures hidden within unviewed logs</li>
-            <li>Created data pipelines and architecture to detect short- and long-term failures of medical devices in preparation for production scale, allowing the company to monitor robots across multiple locations</li>
-            <li>Presented the debugging tool at a company-wide meeting, generating strong interest from R&amp;D and leadership and validating its potential for field deployment</li>
+            <li>Redesigned a Python-based fault audit system using clinical feedback, presenting faults in clear pass/fail summaries and reducing clinical documentation time for faulty runs from 60 to 10 minutes</li>
+            <li>Developed a Python log-analysis tool for an FDA-regulated endoscopy robot to detect overlooked failures and performance degradation to inform R&amp;D researchers and service technicians</li>
+            <li>Built data pipelines for log ingestion, storage, and scheduled analysis to detect short- and long-term device failures, preparing the monitoring system for deployment across multiple locations</li>
+            <li>Presented the debugging tool at a company-wide meeting, receiving positive feedback from R&amp;D and leadership</li>
           </ul>
           <p class="stack"><span>Python</span><span>log analysis</span><span>data pipelines</span><span>FDA-regulated systems</span></p>
           <figure class="inline-media">
@@ -432,10 +492,10 @@
     </div>
   </section>
 
-  <section id="building">
+  <section id="projects">
     <div class="shell">
       <div class="sec-head">
-        <h2>Building</h2>
+        <h2>Relevant Projects</h2>
       </div>
 
       <div class="row">
@@ -446,9 +506,9 @@
         <div>
           <div class="role">Robotics Software Subteam Lead</div>
           <ul>
-            <li>Created and validated an iterative landmark matching model in Gazebo simulation, facilitating robust humanoid pose estimation under noisy soccer-field observations</li>
-            <li>Led a redesign of the A* algorithm with a custom-built ROS2 interface, coordinating simulation-based validation and automated Bash testing to achieve a 50% efficiency improvement over BFS</li>
-            <li>Designed a ROS2 PCD publisher for simulating continuous lane-line data in point-cloud form for CV integration</li>
+            <li>Developed and validated an iterative landmark-matching algorithm in Gazebo for humanoid pose estimation from noisy soccer-field observations</li>
+            <li>Led the redesign of an A* planner with a custom ROS2 interface; validated functionality and compared search performance against BFS through simulation and automated Bash tests</li>
+            <li>Developed a ROS2 point-cloud publisher to simulate continuous lane-line observations for computer vision integration</li>
           </ul>
           <p class="stack"><span>ROS2</span><span>Gazebo</span><span>C++</span><span>pose estimation</span><span>path planning</span></p>
           <figure class="inline-media">
@@ -467,11 +527,10 @@
         <div>
           <div class="role">Autonomy Developer</div>
           <ul>
-            <li>Integrated SLAM for autonomous navigation using LCM and Raspberry Pi, enabling real-time mapping and pathfinding</li>
-            <li>Constructed a particle filter and lidar sensor to map out the robot's environment, allowing it to explore using PID control, odometry, and an occupancy grid for accurate positioning</li>
-            <li>Tuned and analyzed reprojection errors across two camera models offered by MATLAB and LCM</li>
+            <li>Integrated SLAM and path planning on a Raspberry Pi using LCM, enabling real-time mapping and autonomous navigation</li>
+            <li>Implemented particle-filter localization using lidar measurements and odometry, alongside occupancy-grid mapping and PID control for autonomous exploration</li>
           </ul>
-          <p class="stack"><span>C++</span><span>LCM</span><span>Raspberry Pi</span><span>particle filter</span><span>MATLAB</span></p>
+          <p class="stack"><span>C++</span><span>LCM</span><span>Raspberry Pi</span><span>particle filter</span><span>lidar</span></p>
         </div>
       </div>
     </div>
@@ -505,7 +564,7 @@
         </div>
         <div>
           <h3>Also</h3>
-          <p>Teaching assistant for Deep Learning for Robot Perception. Tau Beta Pi.</p>
+          <p>Tau Beta Pi.</p>
         </div>
       </div>
     </div>
@@ -519,7 +578,7 @@
       <a href="mailto:sunnyx@umich.edu">sunnyx@umich.edu</a>
       <a href="https://github.com/sunnyxu200412" target="_blank" rel="noopener">GitHub</a>
       <a href="https://linkedin.com/in/sunnyxu0412" target="_blank" rel="noopener">LinkedIn</a>
-      <a href="resume.pdf">Résumé</a>
+      <a href="media/sunny-xu-cv.pdf" target="_blank" rel="noopener">Résumé</a>
       <a href="tel:+17348828043">734-882-8043</a>
     </div>
     <p class="colophon">Ann Arbor, Michigan.</p>
